@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class BookController {
 
     private final BookDao bookDao;
+    private final PublisherDao publisherDao;
 
-    public BookController(BookDao bookDao) {
+    public BookController(BookDao bookDao, PublisherDao publisherDao) {
         this.bookDao = bookDao;
+        this.publisherDao = publisherDao;
     }
 
     @ResponseBody
@@ -20,7 +22,15 @@ public class BookController {
     public String save(){
         Book book = new Book();
         book.setTitle("Thinking in Java");
+
+        Publisher build =
+                Publisher.builder().name("Helion").city("Warszawa").zipCode("09-400").street("Płocka").number("11B").build();
+
+        publisherDao.save(build);
+        book.setPublisher(build);
         bookDao.save(book);
         return "ok";
     }
+
+
 }

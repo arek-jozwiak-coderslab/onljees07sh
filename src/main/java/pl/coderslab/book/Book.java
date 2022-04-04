@@ -3,6 +3,7 @@ package pl.coderslab.book;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -15,6 +16,11 @@ public class Book {
     private String title;
     private int rating;
     private String description;
+    @ManyToOne
+    private Author author;
+
+    @ManyToOne
+    private Publisher publisher;
 
 
 }
