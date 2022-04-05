@@ -21,6 +21,13 @@ public class BookDao {
                 .getResultList();
     }
 
+    public List<Book> findByPublisherId(long publisherId) {
+        return entityManager
+                .createQuery("SELECT b from Book b where b.publisher.id=:publiherId", Book.class)
+                .setParameter("publiherId", publisherId)
+                .getResultList();
+    }
+
 
     public void save(Book book) {
         entityManager.persist(book);
