@@ -29,7 +29,7 @@
             <td>${book.publisher.name}</td>
             <td>
                 <a href="<c:url value="/book/delete/${book.id}"/>">usuń</a>
-                <a href="">edytuj</a>
+                <a href="<c:url value="/book/edit/${book.id}"/>">edytuj</a>
             </td>
         </tr>
     </c:forEach>

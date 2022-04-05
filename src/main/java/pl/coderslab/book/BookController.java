@@ -2,10 +2,7 @@ package pl.coderslab.book;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import pl.coderslab.car.Car;
 
 @Controller
@@ -22,7 +19,7 @@ public class BookController {
 
     @ResponseBody
     @GetMapping("/save")
-    public String save(){
+    public String save() {
         Book book = new Book();
         book.setTitle("Thinking in Java");
 
@@ -44,7 +41,7 @@ public class BookController {
 
     @PostMapping("/add")
     public String bookAdd(Book book) {
-       bookDao.save(book);
+        bookDao.save(book);
         return "redirect:/book/list";
     }
 
@@ -54,5 +51,23 @@ public class BookController {
         return "book/list";
     }
 
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable long id) {
+        bookDao.delete(bookDao.findById(id));
+        return "redirect:/book/list";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable long id, Model model) {
+        model.addAttribute("book", bookDao.findById(id));
+        model.addAttribute("publishers", publisherDao.findAll());
+        return "book/edit";
+    }
+
+    @PostMapping("/update")
+    public String updateAdd(Book book) {
+        bookDao.update(book);
+        return "redirect:/book/list";
+    }
 
 }
