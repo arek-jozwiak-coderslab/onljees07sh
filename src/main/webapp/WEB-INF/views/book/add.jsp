@@ -15,6 +15,14 @@
 
 <form:form method="post" modelAttribute="book">
     <form:input path="title"/>
+    <form:errors path="title"/>
+    <br/>
+    <form:input path="rating"/>
+    <form:errors path="rating"/>
+    <br/>
+    <form:input path="description"/>
+    <form:errors path="description"/>
+    <br/>
     <form:select itemValue="id" itemLabel="name" path="publisher"
                  items="${publishers}" />
     <input type="submit"/>

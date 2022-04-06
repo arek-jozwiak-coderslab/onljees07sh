@@ -2,9 +2,11 @@ package pl.coderslab.book;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolation;
+import javax.validation.Valid;
 import javax.validation.Validator;
 import java.util.Set;
 
@@ -56,7 +58,11 @@ public class BookController {
     }
 
     @PostMapping("/add")
-    public String bookAdd(Book book) {
+    public String bookAdd(@Valid Book book, BindingResult result, Model model) {
+        if(result.hasErrors()){
+            model.addAttribute("publishers", publisherDao.findAll());
+            return "book/add";
+        }
         bookDao.save(book);
         return "redirect:/book/list";
     }
