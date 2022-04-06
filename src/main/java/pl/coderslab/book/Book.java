@@ -3,9 +3,10 @@ package pl.coderslab.book;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
 
 @Entity
 @Data
@@ -15,15 +16,19 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
-    @Size(min = 2, max = 30)
+    @Size(min = 5)
     private String title;
+    @Min(1)
+    @Max(10)
     private int rating;
+    @Size(max = 600)
     private String description;
     @ManyToOne
+    @NotNull
     private Author author;
 
     @ManyToOne
+    @NotNull
     private Publisher publisher;
 
 
