@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
 import javax.validation.Validator;
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -17,11 +18,13 @@ public class BookController {
     private final BookDao bookDao;
     private final PublisherDao publisherDao;
     private final Validator validator;
+    private final BookRepository bookRepository;
 
-    public BookController(BookDao bookDao, PublisherDao publisherDao, Validator validator) {
+    public BookController(BookDao bookDao, PublisherDao publisherDao, Validator validator, BookRepository bookRepository) {
         this.bookDao = bookDao;
         this.publisherDao = publisherDao;
         this.validator = validator;
+        this.bookRepository = bookRepository;
     }
 
     @ResponseBody
@@ -90,6 +93,16 @@ public class BookController {
     public String updateAdd(Book book) {
         bookDao.update(book);
         return "redirect:/book/list";
+    }
+
+    @GetMapping("/test-repo")
+    @ResponseBody
+    public String testRepo(Model model) {
+        List<Book> books = bookRepository.findByTitle("Thinking in Java");
+
+        List<Book> booksByCategory = bookRepository.findByCategoryId(1L);
+
+        return "book/add";
     }
 
 }

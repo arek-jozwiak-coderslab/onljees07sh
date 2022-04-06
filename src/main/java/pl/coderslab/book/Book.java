@@ -27,6 +27,9 @@ public class Book {
     private Author author;
 
     @ManyToOne
+    private Category category;
+
+    @ManyToOne
     @NotNull
     private Publisher publisher;
 

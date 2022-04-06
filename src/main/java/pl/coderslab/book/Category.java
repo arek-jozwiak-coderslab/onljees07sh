@@ -1,4 +1,4 @@
-package pl.coderslab.car;
+package pl.coderslab.book;
 
 import lombok.Data;
 
@@ -9,12 +9,10 @@ import javax.persistence.Id;
 
 @Data
 @Entity
-public class Car {
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer age;
-    private String model;
-    private String brand;
+    private String name;
 
 }
