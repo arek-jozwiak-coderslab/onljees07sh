@@ -3,7 +3,10 @@ package pl.coderslab.book;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pl.coderslab.car.Car;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/book")
@@ -11,10 +14,12 @@ public class BookController {
 
     private final BookDao bookDao;
     private final PublisherDao publisherDao;
+    private final Validator validator;
 
-    public BookController(BookDao bookDao, PublisherDao publisherDao) {
+    public BookController(BookDao bookDao, PublisherDao publisherDao, Validator validator) {
         this.bookDao = bookDao;
         this.publisherDao = publisherDao;
+        this.validator = validator;
     }
 
     @ResponseBody
@@ -23,12 +28,23 @@ public class BookController {
         Book book = new Book();
         book.setTitle("Thinking in Java");
 
-        Publisher build =
-                Publisher.builder().name("Helion").city("Warszawa").zipCode("09-400").street("Płocka").number("11B").build();
+        Set<ConstraintViolation<Book>> constraintViolations = validator.validate(book);
+        if(constraintViolations.isEmpty()){
+            Publisher build =
+                    Publisher.builder().name("Helion").city("Warszawa").zipCode("09-400").street("Płocka").number("11B").build();
 
-        publisherDao.save(build);
-        book.setPublisher(build);
-        bookDao.save(book);
+            publisherDao.save(build);
+            book.setPublisher(build);
+            bookDao.save(book);
+        }else {
+
+            for (ConstraintViolation<Book> constraintViolation : constraintViolations) {
+                System.out.println(constraintViolation.getPropertyPath());
+                System.out.println(constraintViolation.getMessage());
+            }
+
+        }
+
         return "ok";
     }
 

@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: arek
@@ -9,7 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title></title>
 </head>
 <body>
 
@@ -18,7 +19,7 @@
     <form:hidden path="id"/>
     <form:select itemValue="id" itemLabel="name" path="publisher"
                  items="${publishers}" />
-    <input type="submit"/>
+    <input type="submit" value="Zapisz"/>
 </form:form>
 
 </body>
